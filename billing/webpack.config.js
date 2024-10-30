@@ -11,7 +11,9 @@ sharedMappings.register(
 module.exports = {
   output: {
     uniqueName: "billing",
-    publicPath: "auto"
+    publicPath: "auto"   ,
+    // Add script type for remove JS Error from console
+   scriptType: "text/javascript"
   },
   optimization: {
     runtimeChunk: false
@@ -26,20 +28,12 @@ module.exports = {
   },
   plugins: [
     new ModuleFederationPlugin({
-        library: { type: "module" },
-
         // For remotes (please adjust)
-        // name: "billing",
-        // filename: "remoteEntry.js",
-        // exposes: {
-        //     './Component': './/src/app/app.component.ts',
-        // },
-
-        // For hosts (please adjust)
-        // remotes: {
-        //     "mfe1": "http://localhost:3000/remoteEntry.js",
-
-        // },
+        name: "billing",
+        filename: "remoteEntry.js",
+        exposes: {
+             './BillingModule': './/src/app/billing/billing.module.ts',
+         },
 
         shared: share({
           "@angular/core": { singleton: true, strictVersion: true, requiredVersion: 'auto' },
